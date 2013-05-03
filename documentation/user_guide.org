@@ -94,6 +94,12 @@ in a sub-script.
 			      batch system. Default is not to submit job.
 + -t,--job-time <hh:mm:ss> :: Specify the wallclock limit for the job.
 
+* PRACE machines
+
+The bolt submission tool has been tested on the following PRACE machines and batch systems:
++ HECTOR, PBSPro
++ Stokes, Torque
+
 * Examples
 
 ** Serial jobs
@@ -185,5 +191,5 @@ If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
 * References and further reading
 
 Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
-
+ICHEC, Srokes and Stoney Socumentation, http://www.ichec.ie/support/documentation/ (2013)
 
