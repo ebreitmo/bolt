@@ -190,6 +190,6 @@ If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
 
 * References and further reading
 
-[1] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
-[2] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
++ [1] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
++ [2] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
 
