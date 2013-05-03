@@ -59,20 +59,6 @@ specify will be appended to the parallel launch command (/e.g./ 'mpirun')
 so you cannot currently create jobs where the parallel launch command exists
 in a sub-script.
 
-The '-d' option to bolt allows you to specify the number of OpenMP threads to use. If the number of parallel tasks is 1 (the default) then you will get a pure OpenMP job. If you have more than one parallel task then bolt will produce a script for a hybrid MPI/OpenMP job.
-
-For example, to run a 4 thread, 6 hour OpenMP job with the executable 'my_omp.x' you would use:
-
-#+BEGIN_SRC bash
-bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
-#+END_SRC
-
-To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI task for 12 hours you would use:
-
-#+BEGIN_SRC bash
-bolt n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
-#+END_SRC
-
 * Options
 
 + -a,--account <account>   :: Specify the account to charge the job to. If
@@ -169,6 +155,25 @@ bolt -t 6:0:0 -n 2048 -N 16 -o castep_job.bolt castep alx3
 
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
+
+** OpenMP jobs
+
+The '-d' option to bolt allows you to specify the number of OpenMP threads to use. If the number of parallel tasks is 1 (the default) then you will get a pure OpenMP job. If you have more than one parallel task then bolt will produce a script for a hybrid MPI/OpenMP job.
+
+For example, to run a 4 thread, 6 hour OpenMP job with the executable 'my_omp.x' you would use:
+
+#+BEGIN_SRC bash
+bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
+#+END_SRC
+
+** Hybrid (mixed OpenMP/MPI) jobs
+
+To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI task for 12 hours you would use:
+
+#+BEGIN_SRC bash
+bolt n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
+#+END_SRC
+
 
 * Bugs
 
