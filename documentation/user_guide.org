@@ -178,3 +178,9 @@ bolt n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 * Bugs
 
 If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
+
+* References
+
+Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
+
+
