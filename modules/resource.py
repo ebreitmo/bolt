@@ -69,16 +69,19 @@ class Resource(object):
         self.__distribJobLauncher = None
         self.__distribJobOptions = None
         self.__distribScriptPreamble = None
+        self.__distribExecJobOptions = None
         self.__distribScriptPostamble = None
 
         self.__sharedJobLauncher = None
         self.__sharedJobOptions = None
         self.__sharedScriptPreamble = None
+        self.__sharedExecJobOptions = None
         self.__sharedScriptPostamble = None
 
         self.__hybridJobLauncher = None
         self.__hybridJobOptions = None
         self.__hybridScriptPreamble = None
+        self.__hybridExecJobOptions = None
         self.__hybridScriptPostamble = None
 
         self.__serialJobs = False
@@ -285,6 +288,18 @@ class Resource(object):
            is launched"""
         return self.__hybridScriptPreamble
     @property
+    def distribExecJobOptions(self):
+        """Any additional job options before the exectubale needed for distrib-memory jobs"""
+        return self.__distribExecJobOptions
+    @property
+    def sharedExecJobOptions(self):
+        """Any additional job options before the exectubale needed for shared-memory jobs"""
+        return self.__sharedExecJobOptions
+    @property
+    def hybridExecJobOptions(self):
+        """Any additional job options before the exectubale needed for hybrid jobs"""
+        return self.__hybridExecJobOptions
+    @property
     def distribScriptPostamble(self):
         """Commands to be run in the script after the parallel executable
            is finished"""
@@ -299,7 +314,6 @@ class Resource(object):
         """Commands to be run in the script after the parallel executable                          
             is finished"""
         return self.__hybridScriptPostamble
-
 
     # Serial job settings
     @property
@@ -387,6 +401,7 @@ class Resource(object):
         self.__distribJobLauncher = resourceConfig.get("distributed-mem jobs", "parallel job launcher")
         self.__distribJobOptions = resourceConfig.get("distributed-mem jobs", "additional job options")
         self.__distribScriptPreamble = resourceConfig.get("distributed-mem jobs", "script preamble commands")
+        self.__distribExecJobOptions = resourceConfig.get("distributed-mem jobs", "executable job options")
         self.__distribScriptPostamble = resourceConfig.get("distributed-mem jobs", "script postamble commands")
 
 
@@ -394,12 +409,14 @@ class Resource(object):
         self.__sharedJobLauncher = resourceConfig.get("shared-mem jobs", "parallel job launcher")
         self.__sharedJobOptions = resourceConfig.get("shared-mem jobs", "additional job options")
         self.__sharedScriptPreamble = resourceConfig.get("shared-mem jobs", "script preamble commands")
+        self.__sharedExecJobOptions = resourceConfig.get("shared-mem jobs", "executable job options")
         self.__sharedScriptPostamble = resourceConfig.get("shared-mem jobs", "script postamble commands")
 
         # Get the hybrid memory jobs options                                                        
         self.__hybridJobLauncher = resourceConfig.get("hybrid jobs", "parallel job launcher")
         self.__hybridJobOptions = resourceConfig.get("hybrid jobs", "additional job options")
         self.__hybridScriptPreamble = resourceConfig.get("hybrid jobs", "script preamble commands")
+        self.__hybridExecJobOptions = resourceConfig.get("hybrid jobs", "executable job options")
         self.__hybridScriptPostamble = resourceConfig.get("hybrid jobs", "script postamble commands")
 
         # Get the serial jobs options
