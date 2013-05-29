@@ -381,7 +381,8 @@ def main(argv):
         if (job.queueName == "") or (job.queueName is None):
             job.setQueue(resource.serialQueue)
 
-    # Is this a distributed-memory job or shared-memory or hybrid                                 job.setIsDistrib((job.pTasks > 1) and (job.threads == 1))
+    # Is this a distributed-memory job or shared-memory or hybrid                               
+    job.setIsDistrib((job.pTasks > 1) and (job.threads == 1))
     job.setIsShared((job.pTasks == 1) and (job.threads > 1))
     job.setIsHybrid((job.pTasks > 1) and (job.threads > 1))
 
@@ -430,43 +431,97 @@ def main(argv):
     # Is this a serial or parallel job
     if job.isParallel:
         sys.stdout.write("This is a PARALLEL job.\n")
-        # Set the job command 
-        if code is None:
-            # No code specified, job command is the remaining arguments
-            job.setJobCommand(' '.join(args))
-        else:
-            # Print the message for the specified code
-            if code.message is not None: sys.stdout.write("Note:\n" + code.message + "\n\n")
-            # Get the executable from the code description
-            # Are we running parallel or hybrid job
-            if job.threads > 1:
-                if len(code.hybrid) == 0:
-                    error.handleError("Shared-memory threads specified but not supported by code {0}.".format(code.name))
-                else:
-                    job.setJobCommand(code.hybrid + " " + code.argFormat.format(*args))
-            elif job.threads == 1:
-                if len(code.parallel) == 0:
-                    error.handleError("Parallel job specified but not supported by code {0}.".format(code.name))
-                else:
-                    job.setJobCommand(code.parallel + " " + code.argFormat.format(*args))
-                    
+
         # For parallel jobs we need to compute the pseudo-optimal distribution of
         # tasks and set the parallel job launcher command
         # Write the parallel job script
+
         if job.isDistrib:
             sys.stdout.write("This is a MPI job: "+str(job.pTasks)+", " +str(job.threads)+ "\n")
-            job.setParallelobLauncher(resource.distribJobLauncher)
+
+# Set the job command                                                                       
+            if code is None:
+            # No code specified, job command is the remaining arguments                             
+                job.setJobCommand(resource.distribExecJobOptions+ " " +' '.join(args))
+            else:
+            # Print the message for the specified code                                              
+                if code.message is not None: sys.stdout.write("Note:\n" + code.message + "\n\n")
+                # Get the executable from the code description                                          
+                # Are we running parallel or hybrid job                                                 
+                if job.threads > 1:
+                    if len(code.hybrid) == 0:
+                        error.handleError("Shared-memory threads specified but not supported by code {0\
+}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.hybrid + " " + code.argFormat.format(*args))
+                elif job.threads == 1:
+                    if len(code.parallel) == 0:
+                        error.handleError("Parallel job specified but not supported by code {0}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.parallel +  " " + code.argFormat.format(*args))
+
+
+
+            job.setParallelJobLauncher(resource.distribJobLauncher)
             job.setParallelScriptPreamble(resource.distribScriptPreamble)
             job.setParallelScriptPostamble(resource.distribScriptPostamble)
             job.setJobOptions(resource.distribJobOptions)            
+
         if job.isShared:
             sys.stdout.write("This is an OpenMP job.\n") 
+
+    # Set the job command                                                                       
+            if code is None:
+                # No code specified, job command is the remaining arguments                             
+                job.setJobCommand(resource.sharedExecJobOptions+ " " +' '.join(args))
+            else:
+                # Print the message for the specified code                                              
+                if code.message is not None: sys.stdout.write("Note:\n" + code.message + "\n\n")
+                # Get the executable from the code description                                          
+                # Are we running parallel or hybrid job                                                 
+                if job.threads > 1:
+                    if len(code.hybrid) == 0:
+                        error.handleError("Shared-memory threads specified but not supported by code {0}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.hybrid + " " + code.argFormat.format(*args))
+                elif job.threads == 1:
+                    if len(code.parallel) == 0:
+                        error.handleError("Parallel job specified but not supported by code {0}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.parallel +  " " + code.argFormat.format(*args))
+
+
+
             job.setParallelJobLauncher(resource.sharedJobLauncher)
             job.setParallelScriptPreamble(resource.sharedScriptPreamble)
             job.setParallelScriptPostamble(resource.sharedScriptPostamble)
             job.setJobOptions(resource.sharedJobOptions)
+
+
         if job.isHybrid:
             sys.stdout.write("This is a hybrid job.\n")
+
+# Set the job command                                                                       
+            if code is None:
+                # No code specified, job command is the remaining arguments                             
+                job.setJobCommand(resource.hybridExecJobOptions+ " " +' '.join(args))
+            else:
+                # Print the message for the specified code                                              
+                if code.message is not None: sys.stdout.write("Note:\n" + code.message + "\n\n")
+                # Get the executable from the code description                                          
+                # Are we running parallel or hybrid job                                                 
+                if job.threads > 1:
+                    if len(code.hybrid) == 0:
+                        error.handleError("Shared-memory threads specified but not supported by code {0}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.hybrid + " " + code.argFormat.format(*args))
+                elif job.threads == 1:
+                    if len(code.parallel) == 0:
+                        error.handleError("Parallel job specified but not supported by code {0}.".format(code.name))
+                    else:
+                        job.setJobCommand(code.parallel +  " " + code.argFormat.format(*args))
+
+
             job.setParallelJobLauncher(resource.hybridJobLauncher)
             job.setParallelScriptPreamble(resource.hybridScriptPreamble)
             job.setParallelScriptPostamble(resource.hybridScriptPostamble)
