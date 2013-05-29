@@ -51,6 +51,7 @@ class Job(object):
         self.__parallelScriptPreamble = None
         self.__parallelScriptPostamble = None
         self.__jobOptions = None
+        self.__execJobOptions = None
         self.__parallelJobLauncher = None 
         self.__jobCommand = None
         self.__accountID = None
@@ -440,6 +441,14 @@ class Job(object):
              p """
         self.__parallelScriptPreamble = p
     @property
+    def execJobOptions(self):
+        """ str """
+        return self.__execJobOptions
+    def setExecJobOptions(self,p):
+        """" Set according to type of job, ie. distributed, shared or hybrid.                       
+             Arguments: p """
+        self.__execJobOptions = p
+    @property
     def parallelScriptPostamble(self):
         """str Any script commands that need to be run after the
                   application is complete"""
@@ -611,7 +620,7 @@ class Job(object):
         scriptFile.write(text)
 
         # Get any further options from resource configuration
-        scriptFile.write(self.jobOptions)
+        scriptFile.write(self.jobOptions+"\n")
 
         # Script preambles: resource -> batch -> code -> job
         if self.parallelScriptPreamble != ("" or None):
@@ -620,9 +629,9 @@ class Job(object):
             scriptFile.write(batch.parallelScriptPreamble + "\n")
         if code is not None:
             if code.preamble is not None: scriptFile.write(code.preamble + "\n")
-        if self.parallelScriptPreamble != ("" or None):
-            scriptFile.write(self.parallelScriptPreamble + "\n")
-            sys.stdout.write("The script preamble is: " + str(self.parallelScriptPreamble) +"\n")
+#        if self.parallelScriptPreamble != ("" or None):
+#            scriptFile.write(self.parallelScriptPreamble + "\n")
+#            sys.stdout.write("The script preamble is: " + str(self.parallelScriptPreamble) +"\n")
         sys.stdout.write("No script preamble: " + str(self.parallelScriptPreamble) +"\n")
         # Parallel run line
         scriptFile.write("# Run the parallel program\n")
