@@ -42,8 +42,11 @@ compusory options required on particular resources.
 
 * Limitations
 
-+ Currently designed for MPI (or CAF/UPC) jobs only. Jobs that
-  use OpenMP threading are not supported.
+Currently designed for 
++ MPI (or CAF/UPC) jobs,
++ Jobs using OpenMP threading,
++ Hybrid (mixed OpenMP/MPI) jobs.
+
 
 * Usage
 
@@ -90,6 +93,12 @@ in a sub-script.
 + -s,--submit              :: Submit the created job submission script to the
 			      batch system. Default is not to submit job.
 + -t,--job-time <hh:mm:ss> :: Specify the wallclock limit for the job.
+
+* PRACE machines
+
+The bolt submission tool has been tested on the following PRACE machines and batch systems:
++ HECTOR [1], PBSPro
++ Stokes [2], Torque
 
 * Examples
 
@@ -156,6 +165,31 @@ bolt -t 6:0:0 -n 2048 -N 16 -o castep_job.bolt castep alx3
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
 
+** OpenMP jobs
+
+The '-d' option to bolt allows you to specify the number of OpenMP threads to use. If the number of parallel tasks is 1 (the default) then you will get a pure OpenMP job. If you have more than one parallel task then bolt will produce a script for a hybrid MPI/OpenMP job.
+
+For example, to run a 4 thread, 6 hour OpenMP job with the executable 'my_omp.x' you would use:
+
+#+BEGIN_SRC bash
+bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
+#+END_SRC
+
+** Hybrid (mixed OpenMP/MPI) jobs
+
+To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI task for 12 hours you would use:
+
+#+BEGIN_SRC bash
+bolt n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
+#+END_SRC
+
+
 * Bugs
 
 If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
+
+* References and further reading
+
++ [1] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
++ [2] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
+
