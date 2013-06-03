@@ -257,7 +257,7 @@ additional job options:
 script preamble commands:   
 
 # Additional commands to come before the actual executable
-executable job options: 
+executable job options:      -npernode $(( 12 / $OMP_NUM_THREADS ))
 
 # Any script lines to include in parallel jobs after the
 # application has finished
