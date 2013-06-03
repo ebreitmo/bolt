@@ -204,7 +204,7 @@ additional job options:
 
 # Any script lines to include in parallel jobs before the
 # application is launched
-script preamble commands:
+script preamble commands:  export KMP_AFFINITY="granularity=core,compact,1"
 
 # Additional commands to come before the actual executable
 executable job options: 
@@ -219,7 +219,8 @@ script postamble commands:
 # The parallel job launcher command (for example, 'mpiexec' or 'aprun')
 # If this is unset then we assume that the batch system automatically
 # launches the parallel job.
-parallel job launcher:      mpiexec
+parallel job launcher:      export MPI_TASK_AFFINITY=core:$OMP_NUM_THREADS
+                             mpiexec
 
 # Any addtional batch submission options to add to parallel
 # jobs (without the option ID).
@@ -227,8 +228,7 @@ additional job options:
 
 # Any script lines to include in parallel jobs before the
 # application is launched
-script preamble commands:      export MPI_TASK_AFFINITY=core:$OMP_NUM_THREADS;
-                               export MPI_SINGLE_THREAD=no
+script preamble commands:        export MPI_SINGLE_THREAD=no
 
 # Additional commands to come before the actual executable
 executable job options: 
