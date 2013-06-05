@@ -177,7 +177,6 @@ class Resource(object):
         if not ":" in self.__maxJobTime: return int(self.__maxJobTime)
         # Split up the string to extract regions
         maxtime = 0
-        sys.stdout.write("Beforehand: " +str(maxtime)+"\n")
         timebynodes = self.__maxJobTime.split(",")   
         # Loop over specifications
         for specify in timebynodes:
@@ -190,7 +189,6 @@ class Resource(object):
                 # Set the max walltime string if we are in the range
                 if (nodes >= int(range[0])) and (nodes <= int(range[1])): maxtime = int(mt)
         # Return the correct number of integer hours
-                sys.stdout.write("Time per node issue:" +r+ ", " +mt+ ", " +str(maxtime)+"\n")
         return maxtime
 
 
