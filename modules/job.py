@@ -312,7 +312,6 @@ class Job(object):
             if not resource.useBatchParallelOpts:
                 error.handleError("No parallel run command or batch options to use.\n", 1)
 
-        sys.stdout.write("OMP in job.py: " + runLine + "\n")
         pBatchOptions = ""
 
         #-------------------------------------------------------------------------------------------
@@ -326,7 +325,6 @@ class Job(object):
             elif self.pTasks == 0:
                 error.handleError("The number of parallel tasks has not been set.\n", 1)
             runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
-            sys.stdout.write("First runline for Stokes is:" + runline + "\n")
             self.__runLine = runline
           else:
             # Most basic is just the parallel command and number of tasks
@@ -336,14 +334,10 @@ class Job(object):
             elif self.pTasks == 0:
                 error.handleError("The number of parallel tasks has not been set.\n", 1)
             runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
-
-            sys.stdout.write("First runline in job.py: " + runline + ", " + str(option) + ", " +str(self.parallelJobLauncher) + "\n")
             # Can we control the nodes used?
             option = resource.nodesOption
-            sys.stdout.write("Job.py, Option: " + str(option) + "\n")
             if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
              runline = "{0} {1} {2}".format(runline, option, nodesUsed) 
-             sys.stdout.write("Runline in job.py: " + runline + ", " + str(option) + ", " +str(nodesUsed) + "\n")
             # Can we control the number of tasks per node?
             option = resource.taskPerNodeOption
             if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
@@ -360,7 +354,6 @@ class Job(object):
                 runline = "{0} {1} {2}".format(runline, option, strideUsed) 
             
             self.__runLine = runline
-            sys.stdout.write("Runline: " +self.__runLine + "\n")
 
         #-------------------------------------------------------------------------------------------
         # Settings for using parallel batch options
@@ -389,9 +382,7 @@ class Job(object):
         # Set the option
         pBatchOptions = "{0} {1}{2}\n".format(batch.optionID, option, pUnits)
         # Additional options if we need them
-        sys.stdout.write("Add Opts before if: " + str(resource.useBatchParallelOpts) + "\n")
         if resource.useBatchParallelOpts:
-            sys.stdout.write("Add Opts: " + str(self.__pTasksPerNode) + "\n")
             # Can we control the number of tasks per node?
             option = batch.taskPerNodeOption
             if (option != "") and (option is not None) and (self.pTasksPerNode > 0):
@@ -414,7 +405,6 @@ class Job(object):
 
 
         self.__pBatchOptions = pBatchOptions
-        sys.stdout.write("pBatchOptions: " +self.__pBatchOptions+ "\n")
     @property
     def parallelJobLauncher(self):
        """ str   """
@@ -561,11 +551,10 @@ class Job(object):
         # Number of nodes needed for this job
         nodesUsed = self.pTasks / self.pTasksPerNode
         if self.isParallel:
-            sys.stdout.write("Parallel time max:" + str(resource.maxJobTimeByNodes(nodesUsed)) + "\n")
+            sys.stdout.write(" ")
         else:
-            sys.stdout.write("Serial time max:" + str(resource.maxSerialJobTime) + "\n")
+            sys.stdout.write(" ")
             if self.wallTime > float(resource.maxSerialJobTime):error.handleError("Requested walltime ({0} hours) longer than maximum allowed on resource {1} for this number of nodes ({2} hours).".format(self.wallTime, resource.name, resource.maxSerialJobTime))
-            #sys.stdout.write("Hello World\n" + str(self.wallTime))
 
         if (self.pTasks % self.pTasksPerNode) > 0:
             nodesUsed += 1
@@ -599,11 +588,6 @@ class Job(object):
         text = resource.shell + "\n"
         scriptFile.write(text)
        
-#        if batch.name == 'TorqueStokes':
-#            sys.stdout.write("It is a TorquStokes job.\n")
-#        else:
-#            sys.stdout.write("It is not a TorqueStokes job.\n")
-
 
         # Information lines
         scriptFile.write("#\n# Parallel script produced by bolt\n")
@@ -631,15 +615,12 @@ class Job(object):
             if code.preamble is not None: scriptFile.write(code.preamble + "\n")
 #        if self.parallelScriptPreamble != ("" or None):
 #            scriptFile.write(self.parallelScriptPreamble + "\n")
-#            sys.stdout.write("The script preamble is: " + str(self.parallelScriptPreamble) +"\n")
-        sys.stdout.write("No script preamble: " + str(self.parallelScriptPreamble) +"\n")
         # Parallel run line
         scriptFile.write("# Run the parallel program\n")
         if self.runLine is None:
             scriptFile.write(self.jobCommand + "\n")
         else:
             scriptFile.write(self.runLine + " " + self.jobCommand + "\n")
-            sys.stdout.write("JobCommand: " +self.runLine + ", " +self.jobCommand+"\n")
         # Script postambles: job -> code -> batch -> resource
         if self.parallelScriptPostamble != ("" or None):
             scriptFile.write(self.parallelScriptPostamble + "\n")
