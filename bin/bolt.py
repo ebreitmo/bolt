@@ -120,7 +120,7 @@ def main(argv):
     sys.stderr.write("===========================================================================\n")
     sys.stderr.write("bolt " + __version__ + "\n")
     sys.stderr.write("---------------------------------------------------------------------------\n")
-    sys.stderr.write("Copyright 2012  EPCC, The University of Edinburgh, Andy Turner \n")
+    sys.stderr.write("Copyright 2012  EPCC, The University of Edinburgh \n")
     sys.stderr.write("This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.\n")
     sys.stderr.write("This is free software, and you are welcome to redistribute it\n")
     sys.stderr.write("under certain conditions; type `bolt -i' for details.\n")
@@ -154,7 +154,7 @@ def main(argv):
             batches.append(batch)
             batchDict[batch.name] = nBatch - 1
 
-    sys.stdout.write("It is batch system: " + batch.name + "\n")    
+#    sys.stdout.write("It is batch system: " + batch.name + "\n")    
     if nBatch == 0:
         error.handleError("No batch systems defined in {0}.\n".format(batchConfigDir))
 
@@ -349,7 +349,7 @@ def main(argv):
             defaultCPN = resource.numLogicalCoresPerNode()
         # We need to account for the number of threads if > 1
         if job.threads > resource.numLogicalCoresPerNode():
-            sys.stdout.write("numLogicalCoresPerNode in bolt.py :" +str(resource.numLogicalCoresPerNode())+"\n")
+#            sys.stdout.write("numLogicalCoresPerNode in bolt.py :" +str(resource.numLogicalCoresPerNode())+"\n")
             error.handleError("Number of my threads requested ({0}) is greater than number of cores per node on resource {1} ({2}).".format(job.threads, resource.name, resource.numLogicalCoresPerNode()))
         if job.threads > 1: defaultCPN = defaultCPN / job.threads
         # Catch the case where there are less than a nodes-worth of tasks
@@ -386,12 +386,6 @@ def main(argv):
     job.setIsShared((job.pTasks == 1) and (job.threads > 1))
     job.setIsHybrid((job.pTasks > 1) and (job.threads > 1))
 
-    sys.stdout.write("After setting the code type:  \n")
-    print "%i %i" % (True,False)
-    print " %i " % (job.isParallel)
-    print " %s " % (job.isParallel)
-    print " %s " % (job.isHybrid)
-
 
     #=======================================================
     # Consistency checks
@@ -416,7 +410,7 @@ def main(argv):
 
     # Check that we have specified a sensible job time
     job.checkTime(resource)
-    sys.stdout.write("It is batch system: " + batch.name + "\n")
+    #sys.stdout.write("It is batch system: " + batch.name + "\n")
 
     # Check that we have an account (if required)
     if resource.accountRequired:
@@ -427,7 +421,6 @@ def main(argv):
     # Write out the job script
     #=======================================================
 
-    sys.stdout.write("This is before the if statemnet in bolt.py.\n")
     # Is this a serial or parallel job
     if job.isParallel:
         sys.stdout.write("This is a PARALLEL job.\n")
@@ -437,7 +430,7 @@ def main(argv):
         # Write the parallel job script
 
         if job.isDistrib:
-            sys.stdout.write("This is a MPI job: "+str(job.pTasks)+", " +str(job.threads)+ "\n")
+            sys.stdout.write("This is an MPI job. \n")
 
 # Set the job command                                                                       
             if code is None:
