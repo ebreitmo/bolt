@@ -417,7 +417,7 @@ class Job(object):
         """ str """
         return self.__jobOptions
     def setJobOptions(self,p):
-        """" Set according to type of job, ie. distributed, shared or hybrid.
+        """ Set according to type of job, ie. distributed, shared or hybrid.
              Arguments: p """
         self.__jobOptions = p
     @property
@@ -665,17 +665,17 @@ class Job(object):
         scriptFile.write(text)
 
         # Get any further options from resource configuration
-        scriptFile.write(resource.jobOptions)
+        scriptFile.write(resource.serialJobOptions)
 
         # Script preambles: resource -> batch -> code -> job
-        if resource.parallelScriptPreamble != ("" or None):
-            scriptFile.write(resource.parallelScriptPreamble + "\n")
+        if resource.serialScriptPreamble != ("" or None):
+            scriptFile.write(resource.serialScriptPreamble + "\n")
         if batch.parallelScriptPreamble != ("" or None):
             scriptFile.write(batch.parallelScriptPreamble + "\n")
         if code is not None:
             if code.preamble is not None: scriptFile.write(code.postamble + "\n")
-        if self.scriptPreamble != ("" or None):
-            scriptFile.write(self.scriptPreamble + "\n")
+        if self.parallelScriptPreamble != ("" or None):
+            scriptFile.write(self.parallelScriptPreamble + "\n")
 
         # Serial run line
         scriptFile.write("# Run the serial program\n")
@@ -688,6 +688,6 @@ class Job(object):
             if code.postamble is not None: scriptFile.write(code.postamble + "\n")
         if batch.parallelScriptPostamble != ("" or None):
             scriptFile.write(batch.parallelScriptPostamble + "\n")
-        if resource.parallelScriptPostamble != ("" or None):
-            scriptFile.write(resource.parallelScriptPostamble + "\n")
+        if resource.serialScriptPostamble != ("" or None):
+            scriptFile.write(resource.serialScriptPostamble + "\n")
         
