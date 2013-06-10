@@ -248,7 +248,7 @@ These options specify settings for distributed-memory jobs.
   PBS jobs).
 + =script preamble commands= :: Any script lines to include in parallel jobs before 
   the application is launched.
-+ =executable job options= :: Additional commands to come before the actual executable (e.g. '--exe').
++ =executable job options= :: Additional commands to come before the actual executable if required (e.g. '--exe').
 + =script postamble commands= :: Any script lines to include in parallel jobs after
   the application has finished.
   
