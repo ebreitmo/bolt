@@ -97,10 +97,10 @@ in a sub-script.
 * PRACE machines
 
 The bolt submission tool has been tested on the following PRACE machines and batch systems:
-+ FERMI [1], LoadLeveler
-+ HECTOR [2], PBSPro
-+ Stokes [3], Torque
-+ SuperMUC [4], LoadLeveler 
++ FERMI (CINECA) [1], LoadLeveler
++ HECToR (EPCC)  [2], PBSPro
++ Stokes (ICHEC) [3], Torque
++ SuperMUC (LRZ) [4], LoadLeveler 
 
 * Examples
 
