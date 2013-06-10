@@ -97,8 +97,10 @@ in a sub-script.
 * PRACE machines
 
 The bolt submission tool has been tested on the following PRACE machines and batch systems:
-+ HECTOR [1], PBSPro
-+ Stokes [2], Torque
++ FERMI [1], LoadLeveler
++ HECTOR [2], PBSPro
++ Stokes [3], Torque
++ SuperMUC [4], LoadLeveler 
 
 * Examples
 
@@ -180,7 +182,7 @@ bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
 To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI task for 12 hours you would use:
 
 #+BEGIN_SRC bash
-bolt n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
+bolt -n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 #+END_SRC
 
 
@@ -190,6 +192,7 @@ If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
 
 * References and further reading
 
-+ [1] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
-+ [2] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
-
++ [1] IBM FERMI USer Guide, http://www.hpc.cineca.it/content/ibm-fermi-user-guide
++ [2] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
++ [3] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
++ [4] SuperMUC Petascale system, http://www.lrz.de/services/compute/supermuc/
