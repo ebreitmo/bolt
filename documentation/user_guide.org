@@ -43,8 +43,8 @@ compusory options required on particular resources.
 * Limitations
 
 Currently designed for 
-+ MPI (or CAF/UPC) jobs,
-+ Jobs using OpenMP threading,
++ distributed-memory jobs (MPI or CAF/UPC),
++ shared-memeory jobs (using OpenMP threading),
 + Hybrid (mixed OpenMP/MPI) jobs.
 
 
