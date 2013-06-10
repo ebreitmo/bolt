@@ -45,7 +45,7 @@ compusory options required on particular resources.
 Currently designed for 
 + distributed-memory jobs (MPI or CAF/UPC),
 + shared-memeory jobs (using OpenMP threading),
-+ Hybrid (mixed OpenMP/MPI) jobs.
++ hybrid jobs (mixed OpenMP/MPI).
 
 
 * Usage
