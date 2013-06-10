@@ -181,7 +181,7 @@ access to these resources is organised.
 
 *** [general parallel jobs]
 
-These options specify the settings for parallel jobs.
+These options specify the settings for parallel jobs in general.
 
 + =parallel jobs= :: (yes/no) Specify whether or not parallel jobs are supported
   on this resource.
@@ -237,6 +237,9 @@ These options specify the settings for parallel jobs.
   Power and BlueGene systems).
 
 *** [distributed-mem jobs]
+
+These options specify settings for distributed-memory jobs.
+
 + =parallel job launcher= :: The parallel job launcher command on the resource 
   (/e.g./ 'mpiexec' or 'aprun'). If left blank it is assumed that batch system 
   automatically launches the parallel job (as in some IBM setups).
@@ -250,6 +253,9 @@ These options specify the settings for parallel jobs.
   the application has finished.
   
 *** [shared-mem jobs]
+
+These options specify settings for shared-memory jobs.
+
 + =parallel job launcher= :: The parallel job launcher command on the resource 
   (/e.g./ 'mpiexec' or 'aprun'). If left blank it is assumed that batch system 
   automatically launches the parallel job (as in some IBM setups).
@@ -265,6 +271,9 @@ These options specify the settings for parallel jobs.
  
  
 *** [hybrid jobs]
+
+These options specify settings for hybrid jobs.
+
 + =parallel job launcher= :: The parallel job launcher command on the resource 
   (/e.g./ 'mpiexec' or 'aprun'). If left blank it is assumed that batch system 
   automatically launches the parallel job (as in some IBM setups).
@@ -280,3 +289,5 @@ These options specify the settings for parallel jobs.
 
 
 *** [serial jobs]
+
+These options specify the settings for serial jobs.
