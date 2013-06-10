@@ -245,6 +245,7 @@ These options specify the settings for parallel jobs.
   PBS jobs).
 + =script preamble commands= :: Any script lines to include in parallel jobs before 
   the application is launched.
++ =executable job options= :: Additional commands to come before the actual executable.
 + =script postamble commands= :: Any script lines to include in parallel jobs after
   the application has finished.
   
@@ -257,6 +258,7 @@ These options specify the settings for parallel jobs.
   PBS jobs).
 + =script preamble commands= :: Any script lines to include in parallel jobs before 
   the application is launched.
++ =executable job options= :: Additional commands to come before the actual executable.
 + =script postamble commands= :: Any script lines to include in parallel jobs after
   the application has finished.
   
@@ -271,6 +273,7 @@ These options specify the settings for parallel jobs.
   PBS jobs).
 + =script preamble commands= :: Any script lines to include in parallel jobs before 
   the application is launched.
++ =executable job options= :: Additional commands to come before the actual executable.
 + =script postamble commands= :: Any script lines to include in parallel jobs after
   the application has finished.
   
