@@ -185,6 +185,14 @@ To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI
 bolt -n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 #+END_SRC
 
+* Specify simulation code
+
+It is possible to specify a simulation code if the necessary file exists in the directory /configuration/codes/*.code.
+To see what code files are available and what specific arguments they require, use the 'bolt -l'. For example, to create a serial batch script for the CP2K-code use:
+
+#+BEGIN_SRC bash
+bolt -c CP2K inputFile outputFile
+#+END_SRC
 
 * Bugs
 
