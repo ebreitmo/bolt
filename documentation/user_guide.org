@@ -157,15 +157,14 @@ This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `bolt -i' for details.
 ===========================================================================
-++Warning++ Using default output file name: a.bolt
-++Warning++ Setting job name to: bolt_ser_job
-++Warning++ Using default job walltime of 5 mins
-++Warning++ Setting number of parallel tasks to 1
-++Warning++ Setting number of tasks per node to 1
-++Warning++ Setting accounting code to staff
+\++Warning++ Using default output file name: a.bolt
+\++Warning++ Setting job name to: bolt_ser_job
+\++Warning++ Using default job walltime of 5 mins
+\++Warning++ Setting number of parallel tasks to 1
+\++Warning++ Setting number of tasks per node to 1
+\++Warning++ Setting accounting code to staff
  This is a SERIAL job.
-**ERROR** Resource: Stokes does not support serial jobs.
-
+\**ERROR\** Resource: Stokes does not support serial jobs.
 #+END_SRC
 
 ** Parallel jobs
