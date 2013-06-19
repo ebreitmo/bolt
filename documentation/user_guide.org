@@ -188,7 +188,7 @@ bolt -n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 * Specify simulation code
 
 It is possible to specify a simulation code if the necessary file exists in the directory /configuration/codes/*.code.
-To see what code files are available and what specific arguments they require, use the 'bolt -l'. For example, to create a serial batch script for the CP2K-code use:
+To see what code files are available and what specific arguments they require, use 'bolt -l'. For example, to create a serial batch script for the CP2K-code use:
 
 #+BEGIN_SRC bash
 bolt -c CP2K inputFile outputFile
