@@ -148,7 +148,7 @@ bolt -r Stokes a.out
 
 the output should look like the following:
 
-#+BEGIN_SRC
+#+BEGIN_SRC bash
 ===========================================================================
 bolt 0.5
 ---------------------------------------------------------------------------
@@ -157,7 +157,6 @@ This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `bolt -i' for details.
 ===========================================================================
-
 #+END_SRC
 
 ** Parallel jobs
