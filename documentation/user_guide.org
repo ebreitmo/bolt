@@ -140,13 +140,13 @@ bolt -p -t 0:20:0 -o post.bolt postprocess.x input.file output.file
 be used.)
 
 If serial jobs are not supported on a given machine. eg. Stokes (as specified in the /configuration/resource/Stokes.resource 
-file) 
+file), the running bolt 
 
 #+BEGIN_SRC bash
 bolt -r Stokes a.out
 #+END_SRC
 
-the output should look like the following:
+will produce an output that looks like the following:
 
 #+BEGIN_EXAMPLE
 ===========================================================================
