@@ -139,6 +139,35 @@ bolt -p -t 0:20:0 -o post.bolt postprocess.x input.file output.file
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
 
+If serial jobs are not supported on a given machine. eg. Stokes (as specified in the /configuration/resource/Stokes.resource 
+file) 
+
+#+BEGIN_SRC bash
+bolt -r Stokes a.out
+#+END_SRC
+
+the output should look like the following:
+
+#+BEGIN_SRC
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_ser_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting number of parallel tasks to 1
+++Warning++ Setting number of tasks per node to 1
+++Warning++ Setting accounting code to staff
+ This is a SERIAL job.
+**ERROR** Resource: Stokes does not support serial jobs.
+
+#+END_SRC
+
 ** Parallel jobs
 
 To create a parallel job submission script to run the program 'castep' with 
