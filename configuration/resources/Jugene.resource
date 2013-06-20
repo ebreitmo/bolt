@@ -33,10 +33,11 @@ default account code:
 sockets per node:      32
 dies per socket:       1
 cores per die:         4
+threads per core:      1
 exclusive node access: yes
 accelerator type:
 
-[parallel jobs]
+[general parallel jobs]
 parallel jobs:              True
 hybrid jobs:                True
 maximum tasks:              294912
@@ -45,7 +46,6 @@ maximum job duration:       12
 parallel time format:       hms
 preferred task stride:      1
 parallel reservation unit:  nodes
-parallel job launcher:      mpirun
 number of tasks option:     -np
 number of nodes option:
 tasks per node option:
@@ -53,9 +53,28 @@ tasks per die option:
 tasks stride option:
 queue name:                 bluegene
 use batch parallel options: False
+
+[distributed-mem jobs]
+parallel job launcher:      mpirun
 additional job options:
 script preamble commands:
+executable job options:
 script postamble commands:
+
+[shared-mem jobs]
+parallel job launcher:      mpirun
+additional job options:
+script preamble commands:
+executable job options:
+script postamble commands:
+
+[hybrid jobs]
+parallel job launcher:      mpirun
+additional job options:
+script preamble commands:
+executable job options:
+script postamble commands:
+
 
 [serial jobs]
 serial jobs:               True
