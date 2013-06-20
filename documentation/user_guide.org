@@ -38,7 +38,10 @@ Produce job submission scripts using a common interface.
 This tool produces job submission scripts for a variety of compute
 resources and batch systems. It attempts to partition the work in a
 pseudo-optimal way and select sensible options. It will also include
-compusory options required on particular resources.
+compulsory options required on particular resources.
+
+We still recommend to check the bolt-generated batch script before submitting it. Please also check the current user guide for the machine you plan to use.
+Often it is useful to submit a small test code (e.g. 'hello world') before potentially wasting a lot of resources for your actual code and a long production run.
 
 * Limitations
 
@@ -108,7 +111,7 @@ in a sub-script.
 
 * PRACE machines
 
-The bolt submission tool has been tested on the following PRACE machines and batch systems:
+The bolt submission tool has been tested on the following PRACE machines and batch systems (as of June 2013):
 + FERMI (CINECA) [1], LoadLeveler
 + HECToR (EPCC)  [2], PBSPro
 + Stokes (ICHEC) [3], Torque
@@ -151,7 +154,7 @@ bolt -p -t 0:20:0 -o post.bolt postprocess.x input.file output.file
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
 
-If serial jobs are not supported on a given machine. eg. Stokes (as specified in the /configuration/resource/Stokes.resource 
+If serial jobs are not supported on a given machine, e.g. Stokes (as specified in the /configuration/resource/Stokes.resource 
 file), running bolt 
 
 #+BEGIN_SRC bash
@@ -179,6 +182,8 @@ under certain conditions; type `bolt -i' for details.
 **ERROR** Resource: Stokes does not support serial jobs.
 
 #+END_EXAMPLE
+
+In this case, no batch script will be created.
 
 ** Parallel jobs
 
