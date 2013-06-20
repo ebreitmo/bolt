@@ -339,8 +339,7 @@ This section defines all otpions specific to parallel jobs.
 + =taks per die option= :: Specifies the number of tasks per die.
 + =task stride option= :: Specifies the preferresd stride between parallel tasks.
 + =time option= :: Specifies the parallel walltime.
-+ =additional options= :: Any additional options to add for parallel jobs. Note these should be specified 
-without the option identifier as this will be added automatically. Multiple options should be separated by a ',' (comma).
++ =additional options= :: Any additional options to add for parallel jobs. Note these should be specified without the option identifier as this will be added automatically. Multiple options should be separated by a ',' (comma).
 + =script preamble= :: Any script lines to include in parallel jobs before the application is launched.
 + =script postamble= ::Any script lines to include in parallel jobs after the application has completed.
 
@@ -353,4 +352,12 @@ All options specific to a serial job.
 + =additional options= ::Any additional options to add for serial jobs.
 + =script preamble= :: Any script lines to include in serial jobs before the application is launched.
 + =script postamble= ::Any script lines to include in serial jobs after the application has completed.
+
+** Global configuration file
+
+The global configuration file sets the global options for the bolt tool. Currently only the default resource to use is available. This resource name must match one of the resources defines in /configuration/resources/*.resource.
+If the user wants to use a different resource, either the entry in this file can be changed or 'bolt -r <OtherSource> ' has to be run.
+*** [global options]
+
++ =default resource= :: Default resource to be used.
 
