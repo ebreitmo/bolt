@@ -33,10 +33,11 @@ default account code:
 sockets per node:      4
 dies per socket:       1
 cores per die:         8
+threads per core:      1
 exclusive node access: yes
 accelerator type:
 
-[parallel jobs]
+[general parallel jobs]
 parallel jobs:              True
 hybrid jobs:                True
 maximum tasks:              11520
@@ -45,7 +46,6 @@ maximum job duration:       12
 parallel time format:       seconds
 preferred task stride:      1
 parallel reservation unit:  tasks
-parallel job launcher:      ccc_mprun
 number of tasks option:     -n
 number of nodes option:     -N
 tasks per node option:
@@ -53,8 +53,26 @@ tasks per die option:
 tasks stride option:        -c
 queue name:
 use batch parallel options: False
+
+[distributed-mem jobs]
+parallel job launcher:      ccc_mprun
 additional job options:
 script preamble commands:
+executable job options:
+script postamble commands:
+
+[shared-mem jobs]
+parallel job launcher:      ccc_mprun
+additional job options:
+script preamble commands:
+executable job options:
+script postamble commands:
+
+[hybrid jobs]
+parallel job launcher:      ccc_mprun
+additional job options:
+script preamble commands:
+executable job options:
 script postamble commands:
 
 [serial jobs]
