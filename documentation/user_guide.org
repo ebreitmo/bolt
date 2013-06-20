@@ -331,7 +331,7 @@ module load prace
 export OMP_NUM_THREADS=12
   a.out
 
-€+END_EXAMPLE
+#+END_EXAMPLE
 
 ** Hybrid (mixed OpenMP/MPI) jobs
 
@@ -340,6 +340,62 @@ To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI
 #+BEGIN_SRC bash
 bolt -n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 #+END_SRC
+
+To produce a batch script for FERMI, for the executable 'a.out' using 64 nodes, 8 MPI processes per node and 2 threads per task, type
+
+#+BEGIN_SRC bash
+bolt -r FERMI -n 512 -N 8 -d 2 a.out
+#+END_SRC
+
+You will see
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_par_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting accounting code to PRACE_staff
+ This is a PARALLEL job.
+This is a hybrid job.
+The batch system used for parallel script is: LL_BGQ
+#+END_EXAMPLE
+
+The resulting batch script, 'a.bolt' will be:
+
+#+BEGIN_EXAMPLE
+
+#!/bin/bash
+#
+# Parallel script produced by bolt
+#        Resource: FERMI (IBM-BlueGene/Q)
+#    Batch system: LL_BGQ
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#@ bg_size =64
+#@ job_name = bolt_par_job
+#@ account_no = PRACE_staff
+#@ job_type = bluegene
+#@ wall_clock_limit =0:5:0
+#@ output = job$(jobid).out
+#@ error = job$(jobid).err
+#@ queue
+
+
+
+
+# Run the parallel program
+export OMP_NUM_THREADS=2
+runjob -n 512 -p 8 --exp-env OMP_NUM_THREADS --exe a.out
+#+END_EXAMPLE
+
 
 * Specify simulation code
 
