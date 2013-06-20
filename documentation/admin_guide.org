@@ -302,3 +302,55 @@ These options specify the settings for serial jobs.
 + =script postamble commands= :: Any script lines to include in serial jobs after
   the application has finished.
 
+** Batch files
+
+This configuration file describes which batch system to use with the 'bolt' job submission script generation tool. 
+
+The configuration files for all batch systems reside in:
+#+BEGIN_SRC bash
+$BOLT_DIR/configuration/batch
+#+END_SRC
+
+and must have the extension '.batch'.
+
+The PBSPro.batch file has been extensively annotated to assist in setting up your own configuration. All options must exist in the file even if they do not have a etting.
+
+A full list of options is now presented organised by sections.
+
+*** [system info]
+This section defines the name of the batch system.
+
++ =name= :: Name of the batch system.
++ =submit command= :: Name of the command to submit the job.
+*** [basic options]
+This section includes options that apply to both parallel or serial jobs.
+
++ =option identifier= :: The string that precedes every batch option specified in the job submission script.
++ =job name option= :: Specifies the job name.
++ =account option= :: Specifies the account to charge the job to.
++ =queue option= :: specifies the queue name.
+
+
+*** [parallel options]
+This section defines all otpions specific to parallel jobs.
+
++ =parallel option= :: Specifies the number of parallel tasks. 
++ =task per node option= :: Specifies number of tasks per node.
++ =taks per die option= :: Specifies the number of tasks per die.
++ =task stride option= :: Specifies the preferresd stride between parallel tasks.
++ =time option= :: Specifies the parallel walltime.
++ =additional options= :: Any additional options to add for parallel jobs. Note these should be specified 
+without the option identifier as this will be added automatically. Multiple options should be separated by a ',' (comma).
++ =script preamble= :: Any script lines to include in parallel jobs before the application is launched.
++ =script postamble= ::Any script lines to include in parallel jobs after the application has completed.
+
+
+
+*** [serial options]
+All options specific to a serial job.
+
++ =time option= :: Specifies serial walltime.
++ =additional options= ::Any additional options to add for serial jobs.
++ =script preamble= :: Any script lines to include in serial jobs before the application is launched.
++ =script postamble= ::Any script lines to include in serial jobs after the application has completed.
+
