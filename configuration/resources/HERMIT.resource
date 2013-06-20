@@ -79,6 +79,9 @@ dies per socket:       2
 # The number of cores per die
 cores per die:         8
 
+# The number of threads per core (hyperthreading)
+threads per core:      1
+
 # Does each job have exclusive access to a compute node (even
 # if it uses less than the total number of cores per node) or
 # can different jobs share compute nodes
@@ -94,7 +97,7 @@ accelerator type:
 # This section specifies all the options for parallel jobs on
 # the compute resource.
 #------------------------------------------------------------------
-[parallel jobs]
+[general parallel jobs]
 
 # Specify whether or not parallel jobs are available
 parallel jobs:              yes
@@ -185,6 +188,13 @@ queue name:
 # some IBM Power systems)
 use batch parallel options: False
 
+[distributed-mem jobs]
+# The parallel job launcher command (for example, 'mpiexec' or 'aprun')
+# If this is unset then we assume that the batch system automatically
+# launches the parallel job.
+parallel job launcher:      aprun
+
+
 # Any addtional batch submission options to add to parallel
 # jobs (without the option ID).
 additional job options:
@@ -194,9 +204,61 @@ additional job options:
 script preamble commands:   # Switch to current working directory
                             cd $PBS_O_WORKDIR
 
+# Additional commands to come before the actual executable
+executable job options:
+
+
 # Any script lines to include in parallel jobs after the
 # application has finished
 script postamble commands:
+
+[shared-mem jobs]
+# The parallel job launcher command (for example, 'mpiexec' or 'aprun')
+# If this is unset then we assume that the batch system automatically
+# launches the parallel job.
+parallel job launcher:      aprun
+
+
+# Any addtional batch submission options to add to parallel
+# jobs (without the option ID).
+additional job options:
+
+# Any script lines to include in parallel jobs before the
+# application is launched
+script preamble commands:   # Switch to current working directory
+                            cd $PBS_O_WORKDIR
+
+# Additional commands to come before the actual executable
+executable job options:
+
+# Any script lines to include in parallel jobs after the
+# application has finished
+script postamble commands:
+
+[hybrid jobs]
+# The parallel job launcher command (for example, 'mpiexec' or 'aprun')
+# If this is unset then we assume that the batch system automatically
+# launches the parallel job.
+parallel job launcher:      aprun
+
+
+# Any addtional batch submission options to add to parallel
+# jobs (without the option ID).
+additional job options:
+
+# Any script lines to include in parallel jobs before the
+# application is launched
+script preamble commands:   # Switch to current working directory
+                            cd $PBS_O_WORKDIR
+
+
+# Additional commands to come before the actual executable
+executable job options:
+
+# Any script lines to include in parallel jobs after the
+# application has finished
+script postamble commands:
+
 
 #------------------------------------------------------------------
 # Settings for serial jobs
