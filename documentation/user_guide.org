@@ -208,7 +208,7 @@ bolt -t 6:0:0 -n 2048 -N 16 -o castep_job.bolt castep alx3
 To produce a batch script for HECToR, for the executable 'a.out' on 32 processors, type
 
 #+BEGIN_SRC bash
-bolt -r HECTor -n 32 a.out
+bolt -r HECToR -n 32 a.out
 #+END_SRC
 
 You will see
@@ -271,6 +271,67 @@ For example, to run a 4 thread, 6 hour OpenMP job with the executable 'my_omp.x'
 #+BEGIN_SRC bash
 bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
 #+END_SRC
+
+To produce a batch script for SuperMUC, for the executable 'a.out' using 12 threads, type
+
+#+BEGIN_SRC bash
+bolt -r SuperMUC -d 12 a.out
+#+END_SRC
+
+You will see
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_par_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting number of parallel tasks to 1
+++Warning++ Setting number of tasks per node to 1
+ This is a PARALLEL job.
+This is an OpenMP job.
+The batch system used for parallel script is: LL_SuperMUC
+#+END_EXAMPLE
+
+The resulting batch script, 'a.bolt' will be:
+
+#+BEGIN_EXAMPLE
+#!/bin/bash
+#
+# Parallel script produced by bolt
+#        Resource: SuperMUC (IBM SandyBridge EP cores)
+#    Batch system: LL_SuperMUC
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#@ node =1
+#@ tasks_per_node =1
+#@ job_name = bolt_par_job
+#@ job_type = parallel
+#@ wall_clock_limit =0:5:0
+#@ class = general
+#@ output = job$(jobid).out
+#@ error = job$(jobid).err
+#@ network.MPI = sn_all,not_shared,us
+#@ initialdir = $(home)/myDir
+#@ queue
+
+
+export KMP_AFFINITY="granularity=core,compact,1"
+. /etc/profile
+. /etc/profile.d/modules.sh
+module load prace
+# Run the parallel program
+export OMP_NUM_THREADS=12
+  a.out
+
+€+END_EXAMPLE
 
 ** Hybrid (mixed OpenMP/MPI) jobs
 
