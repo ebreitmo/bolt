@@ -361,3 +361,32 @@ If the user wants to use a different resource, either the entry in this file can
 
 + =default resource= :: Default resource to be used.
 
+** Codes
+
+A code configuration file describes a specific code, e.g. cp2k on HECToR. 
+
+*** [code info]
++ =name= :: Name of the code, as to be used for selecting it.
++ =description= :: Description of the code as to be displayed for information.
++ =runtime message= ::Message to be printed when bolt generates a script for this code.
+
+*** [job settings]
+This sections defines the various available job types. Of an entry is blank, this type of job is not available.
+
++ =parallel= :: Distributed-memory/MPI version of code.
++ =serial= :: Serial version of code.
++ =hybrid= :: Hybrid (OpenMP/MPI) version of code.
++ =number of arguments= :: Number of command line arguments required.
++ =argument format= :: Format string for command line arguments. Enclose argument indices in braces and they will be replaced by actual argument values when script is produced.
+
+*** [job limits]
+This section handles any limits on the number of cores that can be used for parallel jobs. If zero then ???
+
++ =maximum tasks= :: Maximum number of parallel tasks.
++ =minimum tasks= :: Minimum number of parallel tasks.
+
+*** [scipt commands]
+This section covers any additional commands to be added to the script.
+
++ =preamble= :: Commands to run before the job is launched.
++ =postamble= :: Commands to run after the job has run.
