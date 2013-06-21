@@ -35,7 +35,7 @@ task per node option:
 task per die option:
 task stride option:     -c
 time option:        -T
-additional options:
+additional options: -o example.o;-e example.e
 script preamble:
 script postamble:
 
