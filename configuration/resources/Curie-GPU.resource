@@ -21,18 +21,18 @@
 #
 [system info]
 system name:        Curie-GPU
-system description: bullx B chassis
+system description: bullx B505
 job script shell:   #!/bin/bash --login
 batch system:       SLURM_Bull
 total nodes:        144
-account code required: no
-default account code:
+account code required: yes
+default account code: yourProjectID
 
 
 [node info]
 sockets per node:      2
 dies per socket:       1
-cores per die:         8
+cores per die:         4
 threads per core:      1
 exclusive node access: yes
 accelerator type:      NVidia M2090
@@ -50,28 +50,30 @@ number of tasks option:     -n
 number of nodes option:     -N
 tasks per node option:
 tasks per die option:
-tasks stride option:        -c
-queue name:
+tasks stride option:        
+queue name:                 hybrid
 use batch parallel options: False
 
 [distributed-mem jobs]
 parallel job launcher:      ccc_mprun
 additional job options:
-script preamble commands:
+script preamble commands:   cd ${BRIDGE_MBSUB_PWD}
+                            set -x
+                            module load cuda
 executable job options:
 script postamble commands:
 
 [shared-mem jobs]
-parallel job launcher:      ccc_mprun
+parallel job launcher:      
 additional job options:
-script preamble commands:
+script preamble commands:  not available
 executable job options:
 script postamble commands:
  
 [hybrid jobs]
-parallel job launcher:      ccc_mprun
+parallel job launcher:      
 additional job options:
-script preamble commands:
+script preamble commands:   not available
 executable job options:
 script postamble commands:
 
@@ -80,8 +82,11 @@ script postamble commands:
 serial jobs:               True
 maximum job duration:      12
 serial time format:        seconds
-queue name:
-additional job options:
+queue name:               hybrid
+additional job options:   cd ${BRIDGE_MBSUB_PWD}
+                          set -x
+	                  module load cuda
+
 script preamble commands:
 script postamble commands:
 
