@@ -51,7 +51,7 @@ number of nodes option:     -N
 tasks per node option:
 tasks per die option:
 tasks stride option:        -c
-queue name:
+queue name:                 standard
 use batch parallel options: False
 
 [distributed-mem jobs]
