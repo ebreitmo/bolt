@@ -38,7 +38,10 @@ Produce job submission scripts using a common interface.
 This tool produces job submission scripts for a variety of compute
 resources and batch systems. It attempts to partition the work in a
 pseudo-optimal way and select sensible options. It will also include
-compusory options required on particular resources.
+compulsory options required on particular resources.
+
+We still recommend to check the bolt-generated batch script before submitting it. Please also check the current user guide for the machine you plan to use.
+Often it is useful to submit a small test code (e.g. 'hello world') before potentially wasting a lot of resources for your actual code and a long production run.
 
 * Limitations
 
@@ -55,7 +58,11 @@ bolt [options] executable_file arg1 arg2 ...
 #+END_SRC
 
 The /executable_file/ is the program or command you wish to run in your
-job submission script.
+job submission script. all options are explained in the following Chapter and can also be seen by running
+
+#+BEGIN_SRC bash
+bolt -h
+#+END_SRC
 
 Note: If you are specifying a parallel job then the program or command you
 specify will be appended to the parallel launch command (/e.g./ 'mpirun')
@@ -71,8 +78,16 @@ in a sub-script.
                               script for. Default is specified by the resource
                               configuration. Use the '-l' option to list valid
                               values.
++ -c,--code <code>         :: Specify a simulation code to generate a batch
+                              script for. Use the '-l' option to list valid 
+                              values and details on the arguments that should
+                              be provided.
++ -d,--threads <n>         :: The number of shared-memory threads per parallel
+                              task. Default is 1.
 + -h,--help                :: Show this help.
 + -i,--info                :: Print the program licence and warranty.
++ -j,--job-name            :: The job name. Defaults to the name of the 
+                              specified executable.
 + -l,--list                :: List the resources and batch systems available.
 + -n,--tasks <n>           :: Number of parallel tasks. Defaults to 1. If
                               number of parallel tasks is 1 then the tool
@@ -96,7 +111,7 @@ in a sub-script.
 
 * PRACE machines
 
-The bolt submission tool has been tested on the following PRACE machines and batch systems:
+The bolt submission tool has been tested on the following PRACE machines and batch systems (as of June 2013):
 + FERMI (CINECA) [1], LoadLeveler
 + HECToR (EPCC)  [2], PBSPro
 + Stokes (ICHEC) [3], Torque
@@ -139,6 +154,37 @@ bolt -p -t 0:20:0 -o post.bolt postprocess.x input.file output.file
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
 
+If serial jobs are not supported on a given machine, e.g. Stokes (as specified in the /configuration/resource/Stokes.resource 
+file), running bolt 
+
+#+BEGIN_SRC bash
+bolt -r Stokes a.out
+#+END_SRC
+
+will produce an output that looks like the following:
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_ser_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting number of parallel tasks to 1
+++Warning++ Setting number of tasks per node to 1
+++Warning++ Setting accounting code to staff
+ This is a SERIAL job.
+**ERROR** Resource: Stokes does not support serial jobs.
+
+#+END_EXAMPLE
+
+In this case, no batch script will be created.
+
 ** Parallel jobs
 
 To create a parallel job submission script to run the program 'castep' with 
@@ -164,6 +210,60 @@ To specify the name of the job submission script to create you can use the
 bolt -t 6:0:0 -n 2048 -N 16 -o castep_job.bolt castep alx3
 #+END_SRC
 
+To produce a batch script for HECToR, for the executable 'a.out' on 32 processors, type
+
+#+BEGIN_SRC bash
+bolt -r HECToR -n 32 a.out
+#+END_SRC
+
+You will see
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_par_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting number of tasks per node to 32
+++Warning++ Setting accounting code to staff
+ This is a PARALLEL job.
+This is an MPI job. 
+The batch system used for parallel script is: PBSPro
+
+#+END_EXAMPLE
+
+The resulting batch script, 'a.bolt' will be:
+
+#+BEGIN_EXAMPLE
+#!/bin/bash --login
+#
+# Parallel script produced by bolt
+#        Resource: HECToR (Cray XE6 (32-core per node))
+#    Batch system: PBSPro
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#PBS -l mppwidth=32
+#PBS -N bolt_par_job
+#PBS -A staff
+#PBS -l walltime=0:5:0
+
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+# Run the parallel program
+aprun -n 32 -N 32 -S 8 -d 1  a.out
+
+#+END_EXAMPLE
+
+
 (If you do not specify an output file name then the default 'a.bolt' will
 be used.)
 
@@ -177,6 +277,67 @@ For example, to run a 4 thread, 6 hour OpenMP job with the executable 'my_omp.x'
 bolt -d 4 -t 6:0:0 -o my_omp_job.bolt my_omp.x
 #+END_SRC
 
+To produce a batch script for SuperMUC, for the executable 'a.out' using 12 threads, type
+
+#+BEGIN_SRC bash
+bolt -r SuperMUC -d 12 a.out
+#+END_SRC
+
+You will see
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_par_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting number of parallel tasks to 1
+++Warning++ Setting number of tasks per node to 1
+ This is a PARALLEL job.
+This is an OpenMP job.
+The batch system used for parallel script is: LL_SuperMUC
+#+END_EXAMPLE
+
+The resulting batch script, 'a.bolt' will be:
+
+#+BEGIN_EXAMPLE
+#!/bin/bash
+#
+# Parallel script produced by bolt
+#        Resource: SuperMUC (IBM SandyBridge EP cores)
+#    Batch system: LL_SuperMUC
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#@ node =1
+#@ tasks_per_node =1
+#@ job_name = bolt_par_job
+#@ job_type = parallel
+#@ wall_clock_limit =0:5:0
+#@ class = general
+#@ output = job$(jobid).out
+#@ error = job$(jobid).err
+#@ network.MPI = sn_all,not_shared,us
+#@ initialdir = $(home)/myDir
+#@ queue
+
+
+export KMP_AFFINITY="granularity=core,compact,1"
+. /etc/profile
+. /etc/profile.d/modules.sh
+module load prace
+# Run the parallel program
+export OMP_NUM_THREADS=12
+  a.out
+
+#+END_EXAMPLE
+
 ** Hybrid (mixed OpenMP/MPI) jobs
 
 To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI task for 12 hours you would use:
@@ -185,6 +346,70 @@ To run a hybrid MPI/OpenMP job using 1024 MPI tasks and 8 OpenMP threads per MPI
 bolt -n 1024 -d 8 -t 12:0:0 -o my_hybrid_job.bolt my_hybrid.x
 #+END_SRC
 
+To produce a batch script for FERMI, for the executable 'a.out' using 64 nodes, 8 MPI processes per node and 2 threads per task, type
+
+#+BEGIN_SRC bash
+bolt -r FERMI -n 512 -N 8 -d 2 a.out
+#+END_SRC
+
+You will see
+
+#+BEGIN_EXAMPLE
+===========================================================================
+bolt 0.5
+---------------------------------------------------------------------------
+Copyright 2012  EPCC, The University of Edinburgh 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `bolt -i'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `bolt -i' for details.
+===========================================================================
+++Warning++ Using default output file name: a.bolt
+++Warning++ Setting job name to: bolt_par_job
+++Warning++ Using default job walltime of 5 mins
+++Warning++ Setting accounting code to PRACE_staff
+ This is a PARALLEL job.
+This is a hybrid job.
+The batch system used for parallel script is: LL_BGQ
+#+END_EXAMPLE
+
+The resulting batch script, 'a.bolt' will be:
+
+#+BEGIN_EXAMPLE
+
+#!/bin/bash
+#
+# Parallel script produced by bolt
+#        Resource: FERMI (IBM-BlueGene/Q)
+#    Batch system: LL_BGQ
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#@ bg_size =64
+#@ job_name = bolt_par_job
+#@ account_no = PRACE_staff
+#@ job_type = bluegene
+#@ wall_clock_limit =0:5:0
+#@ output = job$(jobid).out
+#@ error = job$(jobid).err
+#@ queue
+
+
+
+
+# Run the parallel program
+export OMP_NUM_THREADS=2
+runjob -n 512 -p 8 --exp-env OMP_NUM_THREADS --exe a.out
+#+END_EXAMPLE
+
+
+* Specify simulation code
+
+It is possible to specify a simulation code if the necessary file exists in the directory /configuration/codes/*.code.
+To see what code files are available and what specific arguments they require, use 'bolt -l'. For example, to create a serial batch script for the CP2K-code use:
+
+#+BEGIN_SRC bash
+bolt -c CP2K inputFile outputFile
+#+END_SRC
 
 * Bugs
 
@@ -192,7 +417,7 @@ If you find any bugs please report them to [[epcc-support@epcc.ed.ac.uk]].
 
 * References and further reading
 
-+ [1] IBM FERMI USer Guide, http://www.hpc.cineca.it/content/ibm-fermi-user-guide (2013)
++ [1] IBM FERMI User Guide, http://www.hpc.cineca.it/content/ibm-fermi-user-guide (2013)
 + [2] Running jobs on HECToR, http://www.hector.ac.uk/support/documentation/userguide/batch.php (2013)
 + [3] ICHEC, Srokes and Stoney Documentation, http://www.ichec.ie/support/documentation/ (2013)
 + [4] SuperMUC Petascale system, http://www.lrz.de/services/compute/supermuc/ (2013)
