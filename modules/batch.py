@@ -176,33 +176,123 @@ class Batch(object):
 
         # Set up the config for this object
         batchConfig = ConfigParser.SafeConfigParser()
-        batchConfig.read(fileName)
+        try:
+            batchConfig.read(fileName)
+        except ConfigParser.MissingSectionHeaderError as e:
+            print "{0} in {1}:".format(e,fileName)
+            exit(0)
 
         # Get the batch information options
-        self.__name = batchConfig.get("system info", "name")
-        self.__submitCommand = batchConfig.get("system info", "submit command")
+        try:
+            self.__name = batchConfig.get("system info", "name")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__submitCommand = batchConfig.get("system info", "submit command")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+
 
         # Get the batch options
-        self.__optionID = batchConfig.get("basic options", "option identifier")
-        self.__nameOption = batchConfig.get("basic options", "job name option")
-        self.__accountOption = batchConfig.get("basic options", "account option")
-        self.__queueOption = batchConfig.get("basic options", "queue option")
-
+        try:
+            self.__optionID = batchConfig.get("basic options", "option identifier")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__nameOption = batchConfig.get("basic options", "job name option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__accountOption = batchConfig.get("basic options", "account option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__queueOption = batchConfig.get("basic options", "queue option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+    
         # Get the parallel options
-        self.__parallelOption = batchConfig.get("parallel options", "parallel option")
-        self.__taskPerNodeOption = batchConfig.get("parallel options", "task per node option")
-        self.__taskPerDieOption = batchConfig.get("parallel options", "task per die option")
-        self.__taskStrideOption = batchConfig.get("parallel options", "task stride option")
-        self.__parallelTimeOption = batchConfig.get("parallel options", "time option")
-        self.__parallelOptions = batchConfig.get("parallel options", "additional options")
-        self.__parallelScriptPreamble = batchConfig.get("parallel options", "script preamble")
-        self.__parallelScriptPostamble = batchConfig.get("parallel options", "script postamble")
+        try:
+            self.__parallelOption = batchConfig.get("parallel options", "parallel option")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__taskPerNodeOption = batchConfig.get("parallel options", "task per node option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__taskPerDieOption = batchConfig.get("parallel options", "task per die option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__taskStrideOption = batchConfig.get("parallel options", "task stride option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__parallelTimeOption = batchConfig.get("parallel options", "time option")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__parallelOptions = batchConfig.get("parallel options", "additional options")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__parallelScriptPreamble = batchConfig.get("parallel options", "script preamble")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__parallelScriptPostamble = batchConfig.get("parallel options", "script postamble")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
 
         # Get the serial options
-        self.__serialTimeOption = batchConfig.get("serial options", "time option")
-        self.__serialOptions = batchConfig.get("serial options", "additional options")
-        self.__serialScriptPreamble = batchConfig.get("serial options", "script preamble")
-        self.__serialScriptPostamble = batchConfig.get("serial options", "script postamble")
+        try:
+            self.__serialTimeOption = batchConfig.get("serial options", "time option")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__serialOptions = batchConfig.get("serial options", "additional options")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__serialScriptPreamble = batchConfig.get("serial options", "script preamble")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__serialScriptPostamble = batchConfig.get("serial options", "script postamble")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+
 
     def getOptionLines(self, isParallel, jobName, queueName, runtime, accountID):
         """Generate the batch submission option lines so they can be
