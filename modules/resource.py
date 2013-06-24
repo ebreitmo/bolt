@@ -358,73 +358,347 @@ class Resource(object):
 
         # Set up the config for this object
         resourceConfig = ConfigParser.SafeConfigParser()
-        resourceConfig.read(fileName)
+        try:
+            resourceConfig.read(fileName)
+        except ConfigParser.MissingSectionHeaderError as e:
+            print "{0} in {1}:".format(e,fileName)
+            exit(0)
+
 
         # Get the system information options
-        self.__name = resourceConfig.get("system info", "system name")
-        self.__arch = resourceConfig.get("system info", "system description")
-        self.__shell = resourceConfig.get("system info", "job script shell")
-        self.__batch = resourceConfig.get("system info", "batch system")
-        self.__nodes = resourceConfig.getint("system info", "total nodes")
-        self.__accountRequired = resourceConfig.getboolean("system info", "account code required")
-        self.__defaultAccount = resourceConfig.get("system info", "default account code")
+        try:
+            self.__name = resourceConfig.get("system info", "system name")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__arch = resourceConfig.get("system info", "system description")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__shell = resourceConfig.get("system info", "job script shell")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__batch = resourceConfig.get("system info", "batch system")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        try:
+            self.__nodes = resourceConfig.getint("system info", "total nodes")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'total nodes' in 'system info'."
+            exit(0)
+        try:
+            self.__accountRequired = resourceConfig.getboolean("system info", "account code required")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'account code required' in 'system info'."
+            exit(0)
+        try:
+            self.__defaultAccount = resourceConfig.get("system info", "default account code")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+
 
         # Get the node information options
-        self.__socketsPerNode = resourceConfig.getint("node info", "sockets per node")
-        self.__diesPerSocket = resourceConfig.getint("node info", "dies per socket")
-        self.__coresPerDie = resourceConfig.getint("node info", "cores per die")
-        self.__threadsPerCore = resourceConfig.getint("node info", "threads per core")
-        self.__nodeExclusive = resourceConfig.getboolean("node info", "exclusive node access")
-        self.__accelerator = resourceConfig.get("node info", "accelerator type")
+        try:
+            self.__socketsPerNode = resourceConfig.getint("node info", "sockets per node")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'sockets per node' in 'node info'."
+            exit(0)
+        try:
+            self.__diesPerSocket = resourceConfig.getint("node info", "dies per socket")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'dies per socket' in 'node info'."
+            exit(0)
+        try:
+            self.__coresPerDie = resourceConfig.getint("node info", "cores per die")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'cores per die' in 'node info'."
+            exit(0)
+        try:
+            self.__threadsPerCore = resourceConfig.getint("node info", "threads per core")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'threads per core' in 'node info'."
+            exit(0)
+        try:
+            self.__nodeExclusive = resourceConfig.getboolean("node info", "exclusive node access")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'exclusive node access' in 'node info'."
+            exit(0)
+        try:
+            self.__accelerator = resourceConfig.get("node info", "accelerator type")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+
 
         # Get the general parallel jobs options
-        self.__parallelJobs = resourceConfig.getboolean("general parallel jobs", "parallel jobs")
-        self.__hybridJobs = resourceConfig.getboolean("general parallel jobs", "hybrid jobs")
-        self.__maxTasks = resourceConfig.getint("general parallel jobs", "maximum tasks")
-        self.__minTasks = resourceConfig.getint("general parallel jobs", "minimum tasks")
-        self.__maxJobTime = resourceConfig.get("general parallel jobs", "maximum job duration")
-        self.__parallelTimeFormat = resourceConfig.get("general parallel jobs", "parallel time format")
-        self.__preferredStride = resourceConfig.getint("general parallel jobs", "preferred task stride")
-        self.__parallelBatchUnit = resourceConfig.get("general parallel jobs", "parallel reservation unit")
-        self.__parallelTaskOption = resourceConfig.get("general parallel jobs", "number of tasks option")
-        self.__nodesOption = resourceConfig.get("general parallel jobs", "number of nodes option")
-        self.__taskPerNodeOption = resourceConfig.get("general parallel jobs", "tasks per node option")
-        self.__taskPerDieOption = resourceConfig.get("general parallel jobs", "tasks per die option")
-        self.__taskStrideOption = resourceConfig.get("general parallel jobs", "tasks stride option")
-        self.__parallelQueue = resourceConfig.get("general parallel jobs", "queue name")
-        self.__useBatchParallelOpts = resourceConfig.getboolean("general parallel jobs", "use batch parallel options")
-
+        try:
+            self.__parallelJobs = resourceConfig.getboolean("general parallel jobs", "parallel jobs")
+        except ConfigParser.NoSectionError as e1:
+            print "{0} in {1}".format(e1,fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'parallel jobs' in 'general parallel jobs'."
+            exit(0)
+        try:
+            self.__hybridJobs = resourceConfig.getboolean("general parallel jobs", "hybrid jobs")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'hybrid jobs' in 'general parallel jobs'."
+            exit(0)
+        try:
+            self.__maxTasks = resourceConfig.getint("general parallel jobs", "maximum tasks")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'maximum tasks' in 'general parallel jobs'."
+            exit(0)
+        try:
+            self.__minTasks = resourceConfig.getint("general parallel jobs", "minimum tasks")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'minimum tasks' in 'general parallel jobs'."
+            exit(0)
+        try:
+            self.__maxJobTime = resourceConfig.get("general parallel jobs", "maximum job duration")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__parallelTimeFormat = resourceConfig.get("general parallel jobs", "parallel time format")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__preferredStride = resourceConfig.getint("general parallel jobs", "preferred task stride")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'preferred task stride' in 'general parallel jobs'."
+            exit(0)
+        try:
+            self.__parallelBatchUnit = resourceConfig.get("general parallel jobs", "parallel reservation unit")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__parallelTaskOption = resourceConfig.get("general parallel jobs", "number of tasks option")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__nodesOption = resourceConfig.get("general parallel jobs", "number of nodes option")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__taskPerNodeOption = resourceConfig.get("general parallel jobs", "tasks per node option")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__taskPerDieOption = resourceConfig.get("general parallel jobs", "tasks per die option")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__taskStrideOption = resourceConfig.get("general parallel jobs", "tasks stride option")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__parallelQueue = resourceConfig.get("general parallel jobs", "queue name")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        try:
+            self.__useBatchParallelOpts = resourceConfig.getboolean("general parallel jobs", "use batch parallel options")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e, fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'use batch parallel options' in 'general parallel jobs'."
+            exit(0)
 
         # Get the distributed memory jobs options
-        self.__distribJobLauncher = resourceConfig.get("distributed-mem jobs", "parallel job launcher")
-        self.__distribJobOptions = resourceConfig.get("distributed-mem jobs", "additional job options")
-        self.__distribScriptPreamble = resourceConfig.get("distributed-mem jobs", "script preamble commands")
-        self.__distribExecJobOptions = resourceConfig.get("distributed-mem jobs", "executable job options")
-        self.__distribScriptPostamble = resourceConfig.get("distributed-mem jobs", "script postamble commands")
+        try:
+            self.__distribJobLauncher = resourceConfig.get("distributed-mem jobs", "parallel job launcher")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__distribJobOptions = resourceConfig.get("distributed-mem jobs", "additional job options")
+
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__distribScriptPreamble = resourceConfig.get("distributed-mem jobs", "script preamble commands")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__distribExecJobOptions = resourceConfig.get("distributed-mem jobs", "executable job options")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__distribScriptPostamble = resourceConfig.get("distributed-mem jobs", "script postamble commands")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+
+        # Get the shared memory jobs options                     
+        try:                               
+            self.__sharedJobLauncher = resourceConfig.get("shared-mem jobs", "parallel job launcher")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__sharedJobOptions = resourceConfig.get("shared-mem jobs", "additional job options")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__sharedScriptPreamble = resourceConfig.get("shared-mem jobs", "script preamble commands")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__sharedExecJobOptions = resourceConfig.get("shared-mem jobs", "executable job options")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        try:
+            self.__sharedScriptPostamble = resourceConfig.get("shared-mem jobs", "script postamble commands")
+        except ConfigParser.NoOptionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+
+        # Get the hybrid memory jobs options     
+        try:                                                   
+            self.__hybridJobLauncher = resourceConfig.get("hybrid jobs", "parallel job launcher")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__hybridJobOptions = resourceConfig.get("hybrid jobs", "additional job options")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__hybridScriptPreamble = resourceConfig.get("hybrid jobs", "script preamble commands")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__hybridExecJobOptions = resourceConfig.get("hybrid jobs", "executable job options")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__hybridScriptPostamble = resourceConfig.get("hybrid jobs", "script postamble commands")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
 
 
-        # Get the shared memory jobs options                                                    
-        self.__sharedJobLauncher = resourceConfig.get("shared-mem jobs", "parallel job launcher")
-        self.__sharedJobOptions = resourceConfig.get("shared-mem jobs", "additional job options")
-        self.__sharedScriptPreamble = resourceConfig.get("shared-mem jobs", "script preamble commands")
-        self.__sharedExecJobOptions = resourceConfig.get("shared-mem jobs", "executable job options")
-        self.__sharedScriptPostamble = resourceConfig.get("shared-mem jobs", "script postamble commands")
-
-        # Get the hybrid memory jobs options                                                        
-        self.__hybridJobLauncher = resourceConfig.get("hybrid jobs", "parallel job launcher")
-        self.__hybridJobOptions = resourceConfig.get("hybrid jobs", "additional job options")
-        self.__hybridScriptPreamble = resourceConfig.get("hybrid jobs", "script preamble commands")
-        self.__hybridExecJobOptions = resourceConfig.get("hybrid jobs", "executable job options")
-        self.__hybridScriptPostamble = resourceConfig.get("hybrid jobs", "script postamble commands")
 
         # Get the serial jobs options
-        self.__serialJobs = resourceConfig.getboolean("serial jobs", "serial jobs")
-        self.__maxSerialJobTime = resourceConfig.getfloat("serial jobs", "maximum job duration")
-        self.__serialTimeFormat = resourceConfig.get("serial jobs", "serial time format")
-        self.__serialQueue = resourceConfig.get("serial jobs", "queue name")
-        self.__serialJobOptions = resourceConfig.get("serial jobs", "additional job options")
-        self.__serialScriptPreamble = resourceConfig.get("serial jobs", "script preamble commands")
-        self.__serialScriptPostamble = resourceConfig.get("serial jobs", "script postamble commands")
+        try:
+            self.__serialJobs = resourceConfig.getboolean("serial jobs", "serial jobs")
+        except ConfigParser.NoSectionError as e:
+            print "{0} in {1}: ".format(e,fileName)
+            exit(0)
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        except ValueError:
+            print "Boolean required for 'serial jobs' in 'serial jobs'."
+            exit(0)
+        try:
+            self.__maxSerialJobTime = resourceConfig.getfloat("serial jobs", "maximum job duration")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        except ValueError:
+            print "Integer required for 'maximum job duration' in 'serial jobs'."
+            exit(0)
+        try:
+            self.__serialTimeFormat = resourceConfig.get("serial jobs", "serial time format")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__serialQueue = resourceConfig.get("serial jobs", "queue name")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__serialJobOptions = resourceConfig.get("serial jobs", "additional job options")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__serialScriptPreamble = resourceConfig.get("serial jobs", "script preamble commands")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
+        try:
+            self.__serialScriptPostamble = resourceConfig.get("serial jobs", "script postamble commands")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
+            exit(0)
 
     def numCores(self):
         '''Return the total number of compute cores on this resource.
