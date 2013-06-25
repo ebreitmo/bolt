@@ -275,6 +275,8 @@ script postamble commands:
 # Specify whether or not serial jobs are available
 serial jobs:               no
 
+serial job launcher:       
+
 # The maximum job duration (in whole hours) allowed for serial jobs
 #Longer walltimes not advised, will result in longer queue times
 maximum job duration:     0.5
