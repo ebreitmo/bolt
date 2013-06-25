@@ -293,6 +293,7 @@ These options specify settings for hybrid jobs.
 These options specify the settings for serial jobs.
 
 + =serial jobs= :: (yes/no) Specify whether or not serial jobs are available.
++ =serial job launcher= :: Specify the serial job launcher (if there is one).
 + =maximum job duration= :: The maximum job duration (in whole hours) allowed for serial jobs.
 + =serial time format= :: The format for the serial job time will be printed in the job submission script. Valid values are: 'hms' - hh:mm:ss; 'hours' - integer hours; 'seconds' - integer seconds.
 + =queue name= :: The queue name to use for the serial job (if blank, it is assumed that no queue name is needed).
