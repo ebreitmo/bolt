@@ -538,8 +538,11 @@ def main(argv):
                         error.handleError("Serial job specified but not supported by code {0}.".format(code.name))
                     else:
                         job.setJobCommand(code.serial + " " + code.argFormat.format(*args))
-                        
+           
+
                 # Write the serial job script
+                job.setSerialJobLauncher(resource.serialJobLauncher)
+                sys.stdout.write("Serial job launcher from bolt: " +str(job.serialJobLauncher)+ "\n")
                 job.writeSerialJob(batch, resource, code, outputFile)
                         
     # Close the file if we need to
