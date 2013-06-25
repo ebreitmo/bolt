@@ -52,7 +52,8 @@ class Job(object):
         self.__parallelScriptPostamble = None
         self.__jobOptions = None
         self.__execJobOptions = None
-        self.__parallelJobLauncher = None 
+        self.__parallelJobLauncher = None
+        self.__serialJobLauncher = None 
         self.__jobCommand = None
         self.__accountID = None
 
@@ -413,6 +414,13 @@ class Job(object):
         """" Set according to type of job, ie. distributed, shared or hybrid.                              Arguments: p """
         self.__parallelJobLauncher = p
     @property
+    def serialJobLauncher(self):
+       """ str   """
+       return self.__serialJobLauncher
+    def setSerialJobLauncher(self,p):
+        """"Arguments: p """
+        self.__serialJobLauncher = p
+    @property
     def jobOptions(self):
         """ str """
         return self.__jobOptions
@@ -679,8 +687,8 @@ class Job(object):
 
         # Serial run line
         scriptFile.write("# Run the serial program\n")
-        scriptFile.write(self.jobCommand + "\n")
-
+        scriptFile.write(self.serialJobLauncher + " " + self.jobCommand + "\n")
+        sys.stdout.write("Serial job launcher from job: " +str(self.serialJobLauncher)+ "\n")
         # Script postambles: job -> code -> batch -> resource
         if self.parallelScriptPostamble != ("" or None):
             scriptFile.write(self.paralleScriptPostamble + "\n")
