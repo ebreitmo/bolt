@@ -85,6 +85,7 @@ class Resource(object):
         self.__hybridScriptPostamble = None
 
         self.__serialJobs = False
+        self.__serialJobLauncher = None
         self.__maxSerialJobTime = 0
         self.__serialTimeFormat = None
         self.__serialQueue = None
@@ -318,6 +319,10 @@ class Resource(object):
     def serialJobs(self):
         """Are parallel jobs allowed on the resource?"""
         return self.__serialJobs
+    @property
+    def serialJobLauncher(self):
+        """Serial job launcher command."""
+        return self.__serialJobLauncher
     @property
     def maxSerialJobTime(self):
         """The maximum job time (in hours) permitted for parallel jobs"""
@@ -663,8 +668,14 @@ class Resource(object):
         except ConfigParser.NoOptionError as e1:
             print "{0} in {1}: ".format(e1,fileName)
             exit(0)
-        except ValueError:
-            print "Boolean required for 'serial jobs' in 'serial jobs'."
+        except ValueError as e2:
+            print "{0} in 'serial jobs' in {1}: ".format(e2,fileName)
+            exit(0)
+        try:
+            self.__serialJobLauncher = resourceConfig.get("serial jobs", "serial job launcher")
+            sys.stdout.write("From Resource: " +str(self.serialJobLauncher)+ " " +fileName+"\n")
+        except ConfigParser.NoOptionError as e1:
+            print "{0} in {1}: ".format(e1,fileName)
             exit(0)
         try:
             self.__maxSerialJobTime = resourceConfig.getfloat("serial jobs", "maximum job duration")
