@@ -41,7 +41,7 @@ script postamble:
 
 [serial options]
 time option:        -T
-additional options:
+additional options: -n 1
 script preamble:
 script postamble:
 
