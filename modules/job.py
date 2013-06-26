@@ -317,7 +317,7 @@ class Job(object):
 
         #-------------------------------------------------------------------------------------------
         # Settings for using parallel job launcher
-        if useRunCommand:
+        if useRunCommand and (not self.isShared):
 
 #          if batch.name == 'TorqueStokes':
 #            option = resource.parallelTaskOption
