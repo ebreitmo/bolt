@@ -319,15 +319,15 @@ class Job(object):
         # Settings for using parallel job launcher
         if useRunCommand:
 
-          if batch.name == 'TorqueStokes':
-            option = resource.parallelTaskOption
-            if (option is None) or (option == ""):
-                error.handleError("The job launcher parallel task option is not set.\n", 1)
-            elif self.pTasks == 0:
-                error.handleError("The number of parallel tasks has not been set.\n", 1)
-            runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
-            self.__runLine = runline
-          else:
+#          if batch.name == 'TorqueStokes':
+#            option = resource.parallelTaskOption
+#            if (option is None) or (option == ""):
+#                error.handleError("The job launcher parallel task option is not set.\n", 1)
+#            elif self.pTasks == 0:
+#                error.handleError("The number of parallel tasks has not been set.\n", 1)
+#            runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
+#            self.__runLine = runline
+#          else:
             # Most basic is just the parallel command and number of tasks
             option = resource.parallelTaskOption
             if (option is None) or (option == ""):
