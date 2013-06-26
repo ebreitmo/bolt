@@ -173,6 +173,7 @@ access to these resources is organised.
 + =sockets per node= :: Number of processor sockets per node.
 + =dies per socket= :: Number of dies (or NUMA regions) per *socket*.
 + =cores per die= :: Number of cores per *die* (or NUMA region).
++ =threads per core= :: The number of threads per core (hyperthreading).
 + =exclusive node access= :: (yes/no) 'yes' - no sharing of node resources
   between different jobs; 'no' - multiple jobs are allowed on a node 
   simultaneously.
