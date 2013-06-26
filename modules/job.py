@@ -301,11 +301,11 @@ class Job(object):
         elif (resource.coresPerDie / coresPerDieUsed) >= resource.preferredStride:
             strideUsed = min(coresPerDieUsed, resource.preferredStride)
             
-
+        self.__runLine = runLine
         # Test to see if we have a parallel run command
         runCommand = self.parallelJobLauncher
         useRunCommand = True
-        if ((runCommand == None) or (runCommand == "")) and (not self.isShared):
+        if ((runCommand == None) or (runCommand == "")) and (not  self.isShared):
             useRunCommand = False
             # To keep the exporting of OMP-threads
             self.__runLine = runLine
@@ -317,7 +317,7 @@ class Job(object):
 
         #-------------------------------------------------------------------------------------------
         # Settings for using parallel job launcher
-        if useRunCommand and (not self.isShared):
+        if useRunCommand:
 
 #          if batch.name == 'TorqueStokes':
 #            option = resource.parallelTaskOption
@@ -328,33 +328,34 @@ class Job(object):
 #            runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
 #            self.__runLine = runline
 #          else:
+            if not self.isShared:
             # Most basic is just the parallel command and number of tasks
-            option = resource.parallelTaskOption
-            if (option is None) or (option == ""):
-                error.handleError("The job launcher parallel task option is not set.\n", 1)
-            elif self.pTasks == 0:
-                error.handleError("The number of parallel tasks has not been set.\n", 1)
-            runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
+                option = resource.parallelTaskOption
+                if (option is None) or (option == ""):
+                    error.handleError("The job launcher parallel task option is not set.\n", 1)
+                elif self.pTasks == 0:
+                    error.handleError("The number of parallel tasks has not been set.\n", 1)
+                runline = "{0}{1} {2} {3}".format(runLine, self.parallelJobLauncher, option, self.pTasks)
             # Can we control the nodes used?
-            option = resource.nodesOption
-            if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
-             runline = "{0} {1} {2}".format(runline, option, nodesUsed) 
+                option = resource.nodesOption
+                if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
+                    runline = "{0} {1} {2}".format(runline, option, nodesUsed) 
             # Can we control the number of tasks per node?
-            option = resource.taskPerNodeOption
-            if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
-                runline = "{0} {1} {2}".format(runline, option, self.pTasksPerNode)
+                option = resource.taskPerNodeOption
+                if ((option != "") and (option is not None)) and (self.pTasksPerNode > 0):
+                    runline = "{0} {1} {2}".format(runline, option, self.pTasksPerNode)
 
             # Can we control the number of tasks per die?
-            option = resource.taskPerDieOption
-            if ((option != "") and (option is not None)) and (self.pTasksPerNode > 1) and (coresPerDieUsed > 0):
-                runline = "{0} {1} {2}".format(runline, option, coresPerDieUsed)
+                option = resource.taskPerDieOption
+                if ((option != "") and (option is not None)) and (self.pTasksPerNode > 1) and (coresPerDieUsed > 0):
+                    runline = "{0} {1} {2}".format(runline, option, coresPerDieUsed)
                 
             # Can we control the stride
-            option = resource.taskStrideOption
-            if (option is not None) and (option != ""):
-                runline = "{0} {1} {2}".format(runline, option, strideUsed) 
-            
-            self.__runLine = runline
+                option = resource.taskStrideOption
+                if (option is not None) and (option != ""):
+                    runline = "{0} {1} {2}".format(runline, option, strideUsed) 
+                    
+                self.__runLine = runline
 
         #-------------------------------------------------------------------------------------------
         # Settings for using parallel batch options
