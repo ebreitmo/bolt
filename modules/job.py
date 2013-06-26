@@ -305,7 +305,7 @@ class Job(object):
         # Test to see if we have a parallel run command
         runCommand = self.parallelJobLauncher
         useRunCommand = True
-        if (runCommand == None) or (runCommand == ""):
+        if ((runCommand == None) or (runCommand == "")) and (not self.isShared):
             useRunCommand = False
             # To keep the exporting of OMP-threads
             self.__runLine = runLine
