@@ -673,7 +673,6 @@ class Resource(object):
             exit(0)
         try:
             self.__serialJobLauncher = resourceConfig.get("serial jobs", "serial job launcher")
-            sys.stdout.write("From Resource: " +str(self.serialJobLauncher)+ " " +fileName+"\n")
         except ConfigParser.NoOptionError as e1:
             print "{0} in {1}: ".format(e1,fileName)
             exit(0)
