@@ -80,6 +80,7 @@ script postamble commands:
 
 [serial jobs]
 serial jobs:               True
+serial job launcher:       ccc_mprun
 maximum job duration:      12
 serial time format:        seconds
 queue name:               hybrid
