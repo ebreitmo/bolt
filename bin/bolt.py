@@ -542,7 +542,6 @@ def main(argv):
 
                 # Write the serial job script
                 job.setSerialJobLauncher(resource.serialJobLauncher)
-                sys.stdout.write("Serial job launcher from bolt: " +str(job.serialJobLauncher)+ "\n")
                 job.writeSerialJob(batch, resource, code, outputFile)
                         
     # Close the file if we need to
