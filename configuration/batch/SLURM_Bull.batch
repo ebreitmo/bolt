@@ -31,9 +31,9 @@ queue option:      -q
 
 [parallel options]
 parallel option:        -n
-task per node option:
-task per die option:
-task stride option:     -c
+task per node option:   
+task per die option:    
+task stride option:    -c
 time option:        -T
 additional options: -o example.o;-e example.e
 script preamble:
@@ -41,7 +41,7 @@ script postamble:
 
 [serial options]
 time option:        -T
-additional options: -n 1
+additional options: -n 1; -o example.o;-e example.e
 script preamble:
 script postamble:
 
