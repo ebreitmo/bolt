@@ -395,12 +395,12 @@ def main(argv):
     if taskPerNodeSpecified:
         if resource.useBatchParallelOpts:
             if (batch.taskPerNodeOption == "") or (batch.taskPerNodeOption is None):
-                error.printWarning("Tasks per node specified ({0}) but option is not supported on resource {1}. {2} will be used.".format(job.pTasksPerNode, resource.name, min(job.pTasks, resource.numCoresPerNode())))
-                job.setTasksPerNode(min(job.pTasks, resource.numCoresPerNode()))
+                error.printWarning("1. Tasks per node specified ({0}) but option is not supported on resource {1}. {2} will be used.".format(job.pTasksPerNode, resource.name, min(job.pTasks, resource.numLogicalCoresPerNode())))
+                job.setTasksPerNode(min(job.pTasks, resource.numLogicalCoresPerNode()))
         else:
             if ((resource.taskPerNodeOption == "") or (resource.taskPerNodeOption == None)) and \
                            ((resource.nodesOption == "") or (resource.nodesOption == None)):
-                error.printWarning("Tasks per node specified ({0}) but option is not supported on resource {1}. {2} will be used.".format(job.pTasksPerNode, resource.name, min(job.pTasks, resource.numCoresPerNode())))
+                error.printWarning("2. Tasks per node specified ({0}) but option is not supported on resource {1}. {2} will be used.".format(job.pTasksPerNode, resource.name, min(job.pTasks, resource.numCoresPerNode())))
 
                 job.setTasksPerNode(min(job.pTasks, resource.numCoresPerNode()))
 
