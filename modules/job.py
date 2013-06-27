@@ -387,24 +387,26 @@ class Job(object):
         if resource.useBatchParallelOpts:
             # Can we control the number of tasks per node?
             option = batch.taskPerNodeOption
+            sys.stdout.write("FIRST Batch stride option: " +str(option)+ "\n")
             if (option != "") and (option is not None) and (self.pTasksPerNode > 0):
-                if batch.name == 'TorqueStokes':
+               #if batch.name == 'TorqueStokes':
 
-                    pBatchOptions = "{0}{1}{2}\n".format(pBatchOptions, batch.optionID, option)                   
-                else:
+               #    pBatchOptions = "{0}{1}{2}\n".format(pBatchOptions, batch.optionID, option)                   
+               #else:
 
-                    pBatchOptions = "{0}{1} {2}{3}\n".format(pBatchOptions, batch.optionID, option, self.pTasksPerNode)
+                   pBatchOptions = "{0}{1} {2}{3}\n".format(pBatchOptions, batch.optionID, option, self.pTasksPerNode)
 
             # Can we control the number of tasks per die?
             option = batch.taskPerDieOption
             if not ((option == "") or (option is None)) and (self.pTasksPerNode > 1) and (coresPerDieUsed > 0):
-                pBatchOptions = "{0}{1} {2}{3}".format(pBatchOptions, batch.optionID, option, coresPerDieUsed)
+                pBatchOptions = "{0}{1} {2}{3}\n".format(pBatchOptions, batch.optionID, option, coresPerDieUsed)
                 
             # Can we control the stride
             option = batch.taskStrideOption
+            sys.stdout.write("SECOND Batch stride option: " +str(option)+ "\n")
             if (option is not None) and (option != ""):
-                pBatchOptions = "{0}{1} {2}{3}".format(pBatchOptions, batch.optionID, option, strideUsed) 
-
+                pBatchOptions = "{0}{1} {2}{3}\n".format(pBatchOptions, batch.optionID, option, strideUsed) 
+                sys.stdout.write("Batch stride option: " +str(pBatchOptions)+ "\n")
 
         self.__pBatchOptions = pBatchOptions
     @property
