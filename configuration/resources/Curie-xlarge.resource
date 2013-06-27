@@ -35,7 +35,7 @@ dies per socket:       1
 cores per die:         8
 threads per core:      1
 # Exclusive node access if 'set -x' is set, see below
-exclusive node access: yes  
+exclusive node access: no
 accelerator type:
 
 [general parallel jobs]
@@ -48,12 +48,12 @@ parallel time format:       seconds
 preferred task stride:      1
 parallel reservation unit:  tasks
 number of tasks option:     -n
-number of nodes option:     -N
+number of nodes option:     
 tasks per node option:
 tasks per die option:
 tasks stride option:        -c
 queue name:                 -xlarge
-use batch parallel options: False
+use batch parallel options: True
 
 [distributed-mem jobs]
 parallel job launcher:      ccc_mprun
@@ -64,7 +64,7 @@ executable job options:
 script postamble commands:
 
 [shared-mem jobs]
-parallel job launcher:      ccc_mprun
+parallel job launcher:     
 additional job options:
 script preamble commands: cd ${BRIDGE_MSUB_PWD}  
                           set -x
@@ -81,6 +81,7 @@ script postamble commands:
 
 [serial jobs]
 serial jobs:               True
+serial job launcher:       
 maximum job duration:      12
 serial time format:        seconds
 queue name:                test
